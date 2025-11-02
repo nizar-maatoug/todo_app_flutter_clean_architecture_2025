@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/router/app_router.dart';
+import 'package:todo_app/features/tasks/presentation/blocs/bloc/switchtheme_bloc.dart';
 
 import 'core/themes/theme_manager.dart';
 
@@ -21,12 +23,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      themeMode: ThemeMode.system,
-      theme: AppThemes.appThemeData[AppTheme.lightTheme],
-      darkTheme: AppThemes.appThemeData[AppTheme.darkTheme],
-      routerConfig: di.sl<AppRouter>().router,
+    return BlocProvider(
+      create: (context) => di.sl<SwitchthemeBloc>(),
+      child: BlocBuilder<SwitchthemeBloc, SwitchthemeState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
+            theme: state.themeValue
+                ? AppThemes.appThemeData[AppTheme.lightTheme]
+                : AppThemes.appThemeData[AppTheme.darkTheme],
+            routerConfig: di.sl<AppRouter>().router,
+          );
+        },
+      ),
     );
   }
 }
