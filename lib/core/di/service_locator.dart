@@ -6,6 +6,8 @@ import 'package:todo_app/core/firebase/auth_service.dart';
 import 'package:todo_app/core/network/network_info.dart';
 import 'package:todo_app/core/router/app_router.dart';
 import 'package:todo_app/features/auth/data/datasources/user_data_source.dart';
+import 'package:todo_app/features/auth/data/repositories/user_repository_impl.dart';
+import 'package:todo_app/features/auth/domain/repositories/user_repository.dart';
 import 'package:todo_app/features/tasks/presentation/blocs/bloc/switchtheme_bloc.dart';
 import 'package:todo_app/firebase_options.dart';
 
@@ -42,6 +44,12 @@ Future<void> init() async {
   sl.registerLazySingleton<UserDataSource>(
     () => UserDataSourceImpl(authService: sl()),
   );
-
-  
+  //repository
+  sl.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(
+      userDataSource: sl(),
+      networkInfo: sl(),
+      authService: sl(),
+    ),
+  );
 }
