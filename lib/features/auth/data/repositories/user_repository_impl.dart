@@ -113,10 +113,8 @@ class UserRepositoryImpl implements UserRepository {
       await authService.currentUser?.updateDisplayName(
         userModel.name,
       );
-      await authService.currentUser?.updateEmail(
-        userModel.email,
-      );
-      await FirebaseAuth.instance.currentUser?.updatePhotoURL(
+
+      await authService.currentUser?.updatePhotoURL(
         userModel.profilURL,
       );
       return Right(unit);
