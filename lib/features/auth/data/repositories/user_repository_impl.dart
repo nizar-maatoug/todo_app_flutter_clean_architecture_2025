@@ -24,7 +24,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, Unit>> registerUser(
     UserEntity user,
   ) async {
-    //Adapter
+    //Adapter entity -> model
     UserModel userModel = UserModel(
       uid: user.uid,
       name: user.name,
