@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SwitchthemeBloc, SwitchthemeState>(
         builder: (context, state) {
           return MaterialApp.router(
-            title: 'Flutter Demo',
+            title: 'TODO APP',
             debugShowCheckedModeBanner: false,
             theme: state.themeValue
                 ? AppThemes.appThemeData[AppTheme.lightTheme]

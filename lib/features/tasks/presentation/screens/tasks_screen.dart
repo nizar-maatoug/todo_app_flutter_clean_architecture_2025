@@ -6,12 +6,6 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('TODO APP'),
-        actions: [const ActionThemeButton()],
-      ),
-      body: const Center(child: Text('Tasks')),
-    );
+    return const Center(child: Text('Tasks'));
   }
 }
