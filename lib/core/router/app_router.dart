@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/core/router/routes.dart';
+import 'package:todo_app/features/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'package:todo_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:todo_app/features/auth/presentation/screens/profile_screen.dart';
 import 'package:todo_app/features/auth/presentation/screens/register_screen.dart';
@@ -11,9 +12,32 @@ import 'package:todo_app/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:todo_app/features/tasks/presentation/widgets/toolbar_action_theme_widget.dart';
 
 class AppRouter {
+  final AuthBloc authBloc;
+
+  AppRouter({required this.authBloc});
+
   late final GoRouter router = GoRouter(
     debugLogDiagnostics: true,
     initialLocation: AppRoutes.home,
+    refreshListenable: GoRouterRefreshNotifier(authBloc.stream),
+    redirect: (context, state) {
+      final authState = authBloc.state;
+      final currentLocation = state.matchedLocation;
+
+      final loggingIn =
+          currentLocation == '/login' ||
+          currentLocation == '/register';
+
+      if (authState is UnAuthenticatedState && !loggingIn) {
+        return '/login';
+      }
+
+      if (authState is AuthenticatedState && loggingIn) {
+        return '/tasks';
+      }
+
+      return null;
+    },
     routes: [
       //Shell for main application layout
       ShellRoute(
@@ -111,4 +135,10 @@ int _calculateIndex(String location) {
   if (location.startsWith('/tasks')) return 0;
   if (location.startsWith('/profile')) return 1;
   return 0;
+}
+
+class GoRouterRefreshNotifier extends ChangeNotifier {
+  GoRouterRefreshNotifier(Stream stream) {
+    stream.listen((_) => notifyListeners());
+  }
 }

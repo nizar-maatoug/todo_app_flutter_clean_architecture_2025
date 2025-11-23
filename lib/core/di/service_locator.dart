@@ -38,7 +38,7 @@ Future<void> init() async {
   );
 
   // find and instanciate AppRouter
-  sl.registerLazySingleton(() => AppRouter());
+  sl.registerLazySingleton(() => AppRouter(authBloc: sl()));
 
   // find and instanciate SwitchthemeBloc
   sl.registerLazySingleton(() => SwitchthemeBloc());
