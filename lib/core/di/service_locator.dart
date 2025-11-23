@@ -11,6 +11,8 @@ import 'package:todo_app/features/auth/domain/repositories/user_repository.dart'
 import 'package:todo_app/features/auth/domain/usecases/register_user.dart';
 import 'package:todo_app/features/auth/domain/usecases/sign_in_user.dart';
 import 'package:todo_app/features/auth/domain/usecases/sign_out_user.dart';
+import 'package:todo_app/features/auth/presentation/blocs/auth/auth_bloc.dart';
+import 'package:todo_app/features/auth/presentation/blocs/register/register_bloc.dart';
 import 'package:todo_app/features/tasks/presentation/blocs/bloc/switchtheme_bloc.dart';
 import 'package:todo_app/firebase_options.dart';
 
@@ -59,4 +61,17 @@ Future<void> init() async {
   sl.registerLazySingleton(() => RegisterUserUseCase(sl()));
   sl.registerLazySingleton(() => SignInUserUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUserUseCase(sl()));
+
+  //Auth Bloc
+  sl.registerLazySingleton(
+    () => AuthBloc(
+      signInUserUseCase: sl(),
+      signOutUserUseCase: sl(),
+      authService: sl(),
+    ),
+  );
+  //Register Bloc
+  sl.registerLazySingleton(
+    () => RegisterBloc(registerUserUseCase: sl()),
+  );
 }
