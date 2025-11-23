@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/router/app_router.dart';
+import 'package:todo_app/features/auth/presentation/blocs/auth/auth_bloc.dart';
+import 'package:todo_app/features/auth/presentation/blocs/register/register_bloc.dart';
 import 'package:todo_app/features/tasks/presentation/blocs/bloc/switchtheme_bloc.dart';
 
 import 'core/themes/theme_manager.dart';
@@ -23,8 +25,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<SwitchthemeBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<SwitchthemeBloc>(),
+        ),
+        BlocProvider(create: (context) => di.sl<RegisterBloc>()),
+        BlocProvider(create: (context) => di.sl<AuthBloc>()),
+      ],
       child: BlocBuilder<SwitchthemeBloc, SwitchthemeState>(
         builder: (context, state) {
           return MaterialApp.router(
