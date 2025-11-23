@@ -9,6 +9,8 @@ class AuthService {
 
   User? get currentUser => _auth.currentUser;
 
+  Stream<User?> get userStream => _auth.authStateChanges();
+
   Future<UserCredential> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -36,4 +38,5 @@ class AuthService {
   Future<void> sendPasswordResetEmail(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
+
 }
