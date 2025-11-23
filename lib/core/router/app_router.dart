@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/core/router/routes.dart';
 import 'package:todo_app/features/auth/presentation/blocs/auth/auth_bloc.dart';
@@ -45,7 +46,18 @@ class AppRouter {
           return Scaffold(
             appBar: AppBar(
               title: const Text('TODO APP'),
-              actions: [const ActionThemeButton()],
+              actions: [
+                const ActionThemeButton(),
+                IconButton(
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(
+                      context,
+                    ).add(LogoutEvent());
+                    //Navigate.......
+                  },
+                  icon: const Icon(Icons.logout),
+                ),
+              ],
             ),
             body: child,
             bottomNavigationBar: BottomNavigationBar(
